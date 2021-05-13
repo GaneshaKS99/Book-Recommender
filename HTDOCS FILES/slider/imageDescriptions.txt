@@ -1,0 +1,5 @@
+img1;image1;<strong>Rupshu Valley</strong> is the valley at an altitude of 4,500 and 5,500 metres, inhabited by the Changpa nomads.
+img2;image2;<strong>Taglang La Pass</strong> is among highest motorable passes at an elevation of 5,328 mtr (17,480 ft).
+img3;image3;<strong>Black Necked</strong> Crane A medium sized crane weighing about 5.5kg with wingspan around 7.8ft.
+img4;image4;<strong>Rupshu Valley</strong> is the valley at an altitude of 4,500 and 5,500 metres, inhabited by the Changpa nomads.
+img5;image5;<strong>Black Necked Crane</strong> A medium sized crane weighing about 5.5kg with wingspan around 7.8ft.

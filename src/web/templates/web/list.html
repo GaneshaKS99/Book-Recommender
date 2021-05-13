@@ -1,0 +1,167 @@
+{% extends 'web/base.html'%}
+{% block body %}
+
+<div class="container">
+    <div class="col-xs-6 col-xs-offset-3">
+    	<form class="form-horizontal" role="search" method="get" action=''>
+         <div class="form-group">
+         <div class="input-group">	
+            <input type="text" class="form-control input-lg " name="q" id="book" onkeyup="obj.getBook()" value="{{ request.GET.q }}" placeholder= "Search Books "/>
+            <div id="container"></div>
+            <span class='input-group-btn'>
+
+             <button class='btn btn-info btn-lg' type='submit'>Search
+             </button>
+         </span>
+        </div>
+
+     </div>
+   </form>
+
+ </div>
+
+ <br><br><br><br>
+
+ <div id="description"></div>
+
+ <div id="slider" >
+     <div id="box">
+         <img src="../media/image1.jpg">
+<!--             <p style='text-align:center'>Rupshu Valley is the valley at an altitude of 4,500 and 5,500 metres, inhabited by the Changpa nomads.</p> -->
+     </div>
+
+     <button class="prev fa fa-chevron-left" onclick="prevImage()"><</button>
+     <button class="next fa fa-chevron-right" onclick="nextImage()">></button>
+ </div>
+ <script>
+     var image = [];
+     var i = image.length;
+     var xhr1 = null;
+     var xhr2 = null;
+
+     function load_image_data()
+     {
+         console.log("load_image called");
+         xhr2 = new XMLHttpRequest();
+         xhr2.open("GET", "../media/imageDescriptions.txt", true);
+         xhr2.onreadystatechange = get_image_data;
+         xhr2.send();
+         console.log("exit");
+     }
+     function get_image_data()
+     {
+         if(this.readyState==4 && this.status==200)
+         {
+             
+             var response = this.response;
+             response_array = response.split("\n");
+             for(var j=0; j<response_array.length; ++j)
+             {
+                 var response_image = response_array[j].split(";");
+                 image.push("../media/"+response_image[1]+".jpg");
+                 console.log("Pushed ");
+                 console.log(image);
+                 i+=1;
+             }
+             document.getElementById("slider").style={visibility:"visible", transform:"visibility 5s"};
+         }
+     }
+     var slider_content = document.getElementById('box');
+
+     // contain images in an array
+   
+
+   // function for next slide 
+
+   function nextImage(){
+       if (i<image.length) {
+           i= i+1;
+       }else{
+           i = 1;
+       }
+       fetch_images_with_url();
+       console.log(i-1);
+   }
+
+
+   // function for prew slide
+
+   function prevImage(){
+
+       if (i<image.length+1 && i>1) {
+           i= i-1;
+       }else{
+           i = image.length;
+       }
+         fetch_images_with_url();
+          console.log(i-1);
+   }
+   
+      var xhr3 = null;
+      function fetch_images_with_url()
+      {
+             
+                 var img = document.createElement("img");
+                 img.src = image[i-1];
+                 slider_content.innerHTML = "";
+                 slider_content.appendChild(img);
+                 console.log("appended");
+      }
+   
+   
+
+ 
+ // script for auto image slider
+
+ setInterval(nextImage , 12000);
+
+
+ </script>
+
+
+</div>  
+    {% if messages %}
+            <ul class="messages">
+            {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %} >{{ message }}</li>
+            {% endfor %}
+            </ul>
+    {% endif %}
+    <div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-2 col-md-3">
+		<h1>List of Books</h1>
+        </div>
+        <div class="col-xs-offset-9  mt-3">
+        <a href="{% url 'recommend' %}" class="btn"><strong><h2>Get Recommendations</h2></strong></a>
+        </div>
+    </div>
+	</div>
+	<div class="container-fluid">
+    
+    <div class="row">
+            {% if books %}
+            {% for book in books %}
+                <div class="col-sm-2 col-md-2 ">
+                    <div class="thumbnail">
+                        <h4>{{book.title}}</h4>
+                        <a href="{% url 'detail' book.id %}">
+                            <img src="{{ book.book_logo.url}}" class="img-responsive">
+                        </a>
+                        <h5>{{book.genre}}</h5>
+                        <div class="caption">
+
+                            <!-- View Details -->
+                            <a href="{% url 'detail' book.id %}" class="btn btn-primary btn-sm" role="button">Give Rating</a>
+
+                                        
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                {% endif %}
+        </div>
+    
+</div>
+
+{% endblock %}

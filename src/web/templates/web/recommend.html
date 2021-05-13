@@ -1,0 +1,38 @@
+{% extends 'web/base.html'%}
+{% block title %}Recommendations{% endblock %}
+{% block body %}
+
+<div class="container-fluid">
+	<h2>Recommendations for You </h2>
+</div>
+
+
+	<div class="container-fluid">
+    
+    <!-- Book list -->
+    <div class="row">
+            {% if book_list %}
+            {% for book in book_list %}
+                <div class="col-sm-2 col-md-2 ">
+                    <div class="thumbnail">
+                        <h4>{{book.title}}</h4>
+                        <a href="{% url 'detail' book.id %}">
+                            <img src="{{ book.book_logo.url}}" class="img-responsive">
+                        </a>
+                        <h5>{{book.genre}}</h5>
+                        <div class="caption">
+
+                            <!-- View Details -->
+                            <a href="{% url 'detail' book.id %}" class="btn btn-primary btn-sm" role="button">Give Rating</a>
+
+                                        
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                {% endif %}
+        </div>
+    
+</div>
+
+{% endblock %}
